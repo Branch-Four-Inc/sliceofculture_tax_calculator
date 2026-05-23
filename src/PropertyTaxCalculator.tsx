@@ -4,7 +4,8 @@ function fmt(value: number): string {
   return new Intl.NumberFormat("en-US", {
     style: "currency",
     currency: "USD",
-    minimumFractionDigits: 2,
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 0,
   }).format(Math.abs(value));
 }
 
@@ -27,16 +28,20 @@ function InputField({
   suffix,
   step = 1,
 }: InputFieldProps) {
+  const [focused, setFocused] = useState(false);
+
   return (
-    <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
+    <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
       <label
         htmlFor={id}
         style={{
-          fontSize: 12,
-          fontWeight: 500,
+          fontSize: 11,
+          fontWeight: 600,
           textTransform: "uppercase",
-          letterSpacing: "0.05em",
-          color: "#6b7280",
+          letterSpacing: "0.1em",
+          color: focused ? "#39ff14" : "#ffffff",
+          transition: "color 0.2s ease",
+          fontFamily: "'DM Mono', monospace",
         }}
       >
         {label}
@@ -46,10 +51,12 @@ function InputField({
           <span
             style={{
               position: "absolute",
-              left: 12,
-              fontSize: 15,
-              color: "#9ca3af",
+              left: 14,
+              fontSize: 14,
+              color: focused ? "#39ff14" : "#ffffff",
               pointerEvents: "none",
+              fontFamily: "'DM Mono', monospace",
+              transition: "color 0.2s ease",
             }}
           >
             {prefix}
@@ -62,26 +69,34 @@ function InputField({
           step={step}
           value={value}
           onChange={(e) => onChange(e.target.value)}
+          onFocus={() => setFocused(true)}
+          onBlur={() => setFocused(false)}
           style={{
             width: "100%",
             boxSizing: "border-box",
-            padding: `10px ${suffix ? "36px" : "12px"} 10px ${prefix ? "28px" : "12px"}`,
-            fontSize: 15,
-            border: "0.5px solid #d1d5db",
-            borderRadius: 8,
+            padding: `12px ${suffix ? "40px" : "14px"} 12px ${prefix ? "32px" : "14px"}`,
+            fontSize: 16,
+            fontFamily: "'DM Mono', monospace",
+            fontWeight: 500,
+            border: `1px solid ${focused ? "#39ff14" : "#2a2a2a"}`,
+            borderRadius: 6,
             outline: "none",
-            background: "#fff",
-            color: "#111827",
+            background: focused ? "#111" : "#0d0d0d",
+            color: "#f9fafb",
+            transition: "all 0.2s ease",
+            boxShadow: focused ? "0 0 0 3px rgba(57,255,20,0.08)" : "none",
           }}
         />
         {suffix && (
           <span
             style={{
               position: "absolute",
-              right: 12,
-              fontSize: 15,
-              color: "#9ca3af",
+              right: 14,
+              fontSize: 14,
+              color: focused ? "#39ff14" : "#ffffff",
               pointerEvents: "none",
+              fontFamily: "'DM Mono', monospace",
+              transition: "color 0.2s ease",
             }}
           >
             {suffix}
@@ -95,38 +110,53 @@ function InputField({
 interface MetricCardProps {
   label: string;
   value: string;
+  subtext?: string;
   variant?: "default" | "increase" | "decrease";
 }
 
 function MetricCard({ label, value, variant = "default" }: MetricCardProps) {
   const valueColor =
     variant === "increase"
-      ? "#991b1b"
+      ? "#ef4444"
       : variant === "decrease"
-      ? "#065f46"
-      : "#111827";
+      ? "#22c55e"
+      : "#000";
 
   return (
     <div
       style={{
-        background: "#f9fafb",
+        background: "#39ff14",
         borderRadius: 8,
-        padding: "1rem 1.25rem",
+        padding: "1.1rem 1.1rem 1rem",
+        display: "flex",
+        flexDirection: "column",
+        gap: 6,
+        position: "relative",
+        overflow: "hidden",
       }}
     >
       <div
         style={{
-          fontSize: 12,
-          fontWeight: 500,
+          fontSize: 10,
+          fontWeight: 700,
           textTransform: "uppercase",
-          letterSpacing: "0.05em",
-          color: "#6b7280",
-          marginBottom: 6,
+          letterSpacing: "0.12em",
+          color: "rgba(0,0,0,0.65)",
+          fontFamily: "'DM Mono', monospace",
         }}
       >
         {label}
       </div>
-      <div style={{ fontSize: 20, fontWeight: 500, color: valueColor }}>
+      <div
+        style={{
+          fontSize: 18,
+          fontWeight: 700,
+          color: valueColor,
+          fontFamily: "'DM Mono', monospace",
+          letterSpacing: "-0.02em",
+          lineHeight: 1,
+        }}
+      >
         {value}
       </div>
     </div>
@@ -135,8 +165,8 @@ function MetricCard({ label, value, variant = "default" }: MetricCardProps) {
 
 export default function PropertyTaxCalculator() {
   const [assessedValue, setAssessedValue] = useState<string>("350000");
-  const [oldRate, setOldRate] = useState<string>("1.10");
-  const [newRate, setNewRate] = useState<string>("1.25");
+  const [oldRate, setOldRate] = useState<string>("2.00");
+  const [newRate, setNewRate] = useState<string>("5.25");
 
   const value = parseFloat(assessedValue) || 0;
   const oldRateNum = parseFloat(oldRate) || 0;
@@ -153,103 +183,155 @@ export default function PropertyTaxCalculator() {
     diff > 0 ? "increase" : diff < 0 ? "decrease" : "default";
 
   return (
-    <div
-      style={{
-        maxWidth: 520,
-        margin: "2rem auto",
-        padding: "0 1rem",
-        fontFamily: "system-ui, sans-serif",
-      }}
-    >
+    <>
+      <style>{`
+        @import url('https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500;600&family=DM+Sans:wght@400;500;600;700&display=swap');
+        input[type=number]::-webkit-inner-spin-button,
+        input[type=number]::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
+        input[type=number] { -moz-appearance: textfield; }
+      `}</style>
       <div
         style={{
-          background: "#ffffff",
-          border: "0.5px solid #e5e7eb",
-          borderRadius: 12,
-          padding: "2rem",
+          minHeight: "100vh",
+          background: "#080808",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          padding: "2rem 1rem",
+          fontFamily: "'DM Sans', sans-serif",
         }}
       >
-        <h1
-          style={{
-            fontSize: 18,
-            fontWeight: 500,
-            color: "#111827",
-            margin: "0 0 1.5rem",
-          }}
-        >
-          Property tax calculator
-        </h1>
+        <div style={{ width: "100%", maxWidth: 480 }}>
 
-        <div style={{ marginBottom: "1.25rem" }}>
-          <InputField
-            label="Assessed property value"
-            id="assessed-value"
-            value={assessedValue}
-            onChange={setAssessedValue}
-            prefix="$"
-            step={1000}
-          />
-        </div>
+          {/* Header */}
+          <div
+            style={{
+              background: "#000",
+              border: "1px solid #1a1a1a",
+              borderRadius: "10px 10px 0 0",
+              padding: "1.75rem 2rem 1.5rem",
+              borderBottom: "1px solid #39ff14",
+            }}
+          >
+            <h1
+              style={{
+                fontSize: 30,
+                fontWeight: 700,
+                color: "#ffffff",
+                margin: 0,
+                letterSpacing: "-0.03em",
+                lineHeight: 1.1,
+              }}
+            >
+              Property Tax
+              <br />
+              Calculator
+            </h1>
+          </div>
 
-        <div
-          style={{
-            display: "grid",
-            gridTemplateColumns: "1fr 1fr",
-            gap: 12,
-            marginBottom: "1.5rem",
-          }}
-        >
-          <InputField
-            label="Old tax rate"
-            id="old-rate"
-            value={oldRate}
-            onChange={setOldRate}
-            suffix="%"
-            step={0.01}
-          />
-          <InputField
-            label="New tax rate"
-            id="new-rate"
-            value={newRate}
-            onChange={setNewRate}
-            suffix="%"
-            step={0.01}
-          />
-        </div>
+          {/* Body */}
+          <div
+            style={{
+              background: "#0d0d0d",
+              border: "1px solid #1a1a1a",
+              borderTop: "none",
+              borderRadius: "0 0 10px 10px",
+              padding: "1.75rem 2rem 2rem",
+            }}
+          >
+            {/* Assessed value */}
+            <div style={{ marginBottom: "1.25rem" }}>
+              <InputField
+                label="Assessed Property Value"
+                id="assessed-value"
+                value={assessedValue}
+                onChange={setAssessedValue}
+                prefix="$"
+                step={1000}
+              />
+            </div>
 
-        <hr
-          style={{
-            border: "none",
-            borderTop: "0.5px solid #e5e7eb",
-            margin: "0 0 1.25rem",
-          }}
-        />
+            {/* Rate inputs */}
+            <div
+              style={{
+                display: "grid",
+                gridTemplateColumns: "1fr 1fr",
+                gap: 12,
+                marginBottom: "2rem",
+              }}
+            >
+              <InputField
+                label="Old Tax Rate"
+                id="old-rate"
+                value={oldRate}
+                onChange={setOldRate}
+                suffix="%"
+                step={0.01}
+              />
+              <InputField
+                label="New Tax Rate"
+                id="new-rate"
+                value={newRate}
+                onChange={setNewRate}
+                suffix="%"
+                step={0.01}
+              />
+            </div>
 
-        <div
-          style={{
-            fontSize: 12,
-            fontWeight: 500,
-            textTransform: "uppercase",
-            letterSpacing: "0.05em",
-            color: "#6b7280",
-            marginBottom: 10,
-          }}
-        >
-          Tax bill comparison
-        </div>
+            {/* Divider */}
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: 12,
+                marginBottom: "1.25rem",
+              }}
+            >
+              <div style={{ flex: 1, height: 1, background: "#1f1f1f" }} />
+              <span
+                style={{
+                  fontSize: 10,
+                  fontWeight: 700,
+                  letterSpacing: "0.14em",
+                  textTransform: "uppercase",
+                  color: "#ffffff",
+                  fontFamily: "'DM Mono', monospace",
+                }}
+              >
+                Tax Bill Comparison
+              </span>
+              <div style={{ flex: 1, height: 1, background: "#1f1f1f" }} />
+            </div>
 
-        <div
-          style={{
-            display: "grid",
-            gridTemplateColumns: "1fr 1fr 1fr",
-            gap: 10,
-          }}
-        >
-          <MetricCard label="Old bill" value={fmt(oldBill)} />
-          <MetricCard label="New bill" value={fmt(newBill)} />
-          <MetricCard label="Difference" value={diffLabel} variant={diffVariant} />
+            {/* Metric cards */}
+            <div
+              style={{
+                display: "grid",
+                gridTemplateColumns: "1fr 1fr 1fr",
+                gap: 8,
+              }}
+            >
+              <MetricCard label="Old Bill" value={fmt(oldBill)} />
+              <MetricCard label="New Bill" value={fmt(newBill)} />
+              <MetricCard label="Difference" value={diffLabel} variant={diffVariant} />
+            </div>
+
+            {/* Footer */}
+            <div
+              style={{
+                marginTop: "1.75rem",
+                textAlign: "center",
+                fontSize: 11,
+                color: "#ffffff",
+                fontFamily: "'DM Mono', monospace",
+                letterSpacing: "0.05em",
+              }}
+            >
+              Created by Branch Four Inc.
+            </div>
+          </div>
         </div>
       </div>
-    </div>
+    </>
   );
 }
