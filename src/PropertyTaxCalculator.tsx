@@ -151,7 +151,7 @@ function MetricCard({ label, value, variant = "default", note }: MetricCardProps
       </div>
       <div
         style={{
-          fontSize: 17,
+          fontSize: 22,
           fontWeight: 700,
           color: valueColor,
           fontFamily: "'Playfair Display', serif",
