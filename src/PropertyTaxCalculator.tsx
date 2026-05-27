@@ -108,7 +108,7 @@ interface MetricCardProps {
   note?: string;
 }
 
-function MetricCard({ label, value, variant = "default", note }: MetricCardProps) {
+function MetricCard({ label, value, note }: MetricCardProps) {
   const valueColor = "#000000";
 
   return (
