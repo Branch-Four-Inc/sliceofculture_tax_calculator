@@ -31,9 +31,9 @@ function InputField({ label, id, value, onChange, prefix, suffix, step = 1 }: In
           fontWeight: 600,
           textTransform: "uppercase",
           letterSpacing: "0.13em",
-          color: focused ? "#B07D2A" : "#8C7B6B",
+          color: focused ? "#C0F11D" : "#ffffff",
           transition: "color 0.2s ease",
-          fontFamily: "'Jost', sans-serif",
+          fontFamily: "'Roboto', sans-serif",
         }}
       >
         {label}
@@ -45,9 +45,9 @@ function InputField({ label, id, value, onChange, prefix, suffix, step = 1 }: In
               position: "absolute",
               left: 14,
               fontSize: 15,
-              color: focused ? "#B07D2A" : "#A89585",
+              color: focused ? "#C0F11D" : "rgba(255,255,255,0.5)",
               pointerEvents: "none",
-              fontFamily: "'Jost', sans-serif",
+              fontFamily: "'Roboto', sans-serif",
               fontWeight: 500,
               transition: "color 0.2s ease",
             }}
@@ -69,15 +69,15 @@ function InputField({ label, id, value, onChange, prefix, suffix, step = 1 }: In
             boxSizing: "border-box",
             padding: `13px ${suffix ? "42px" : "14px"} 13px ${prefix ? "30px" : "14px"}`,
             fontSize: 16,
-            fontFamily: "'Jost', sans-serif",
+            fontFamily: "'Roboto', sans-serif",
             fontWeight: 500,
-            border: `1.5px solid ${focused ? "#B07D2A" : "#E2D9CF"}`,
+            border: `1.5px solid ${focused ? "#C0F11D" : "rgba(255,255,255,0.15)"}`,
             borderRadius: 8,
             outline: "none",
-            background: focused ? "#FFFDF9" : "#FAF7F2",
-            color: "#1A1410",
+            background: focused ? "#161a02" : "#111300",
+            color: "#ffffff",
             transition: "all 0.2s ease",
-            boxShadow: focused ? "0 0 0 3px rgba(176,125,42,0.1)" : "none",
+            boxShadow: focused ? "0 0 0 3px rgba(192,241,29,0.12)" : "none",
           }}
         />
         {suffix && (
@@ -86,9 +86,9 @@ function InputField({ label, id, value, onChange, prefix, suffix, step = 1 }: In
               position: "absolute",
               right: 14,
               fontSize: 15,
-              color: focused ? "#B07D2A" : "#A89585",
+              color: focused ? "#C0F11D" : "rgba(255,255,255,0.5)",
               pointerEvents: "none",
-              fontFamily: "'Jost', sans-serif",
+              fontFamily: "'Roboto', sans-serif",
               fontWeight: 500,
               transition: "color 0.2s ease",
             }}
@@ -109,15 +109,12 @@ interface MetricCardProps {
 }
 
 function MetricCard({ label, value, variant = "default", note }: MetricCardProps) {
-  const valueColor =
-    variant === "increase" ? "#FFAA88"
-    : variant === "decrease" ? "#7ECBA1"
-    : "#F0E8D6";
+  const valueColor = "#000000";
 
   return (
     <div
       style={{
-        background: "linear-gradient(145deg, #1B3A28 0%, #243F2F 100%)",
+        background: "#DBF77D",
         borderRadius: 10,
         padding: "1.2rem 1rem 1.1rem",
         display: "flex",
@@ -125,16 +122,16 @@ function MetricCard({ label, value, variant = "default", note }: MetricCardProps
         gap: 8,
         position: "relative",
         overflow: "hidden",
-        boxShadow: "0 4px 16px rgba(27,58,40,0.18)",
+        boxShadow: "0 4px 16px rgba(0,0,0,0.3)",
       }}
     >
-      {/* gold shimmer top line */}
+      {/* lime shimmer top line */}
       <div
         style={{
           position: "absolute",
           top: 0, left: 0, right: 0,
           height: 2,
-          background: "linear-gradient(90deg, transparent, rgba(196,134,42,0.6), transparent)",
+          background: "linear-gradient(90deg, transparent, rgba(192,241,29,0.8), transparent)",
         }}
       />
       <div
@@ -143,8 +140,8 @@ function MetricCard({ label, value, variant = "default", note }: MetricCardProps
           fontWeight: 700,
           textTransform: "uppercase",
           letterSpacing: "0.15em",
-          color: "rgba(240,232,214,0.55)",
-          fontFamily: "'Jost', sans-serif",
+          color: "rgba(0,0,0,0.55)",
+          fontFamily: "'Roboto', sans-serif",
         }}
       >
         {label}
@@ -154,7 +151,7 @@ function MetricCard({ label, value, variant = "default", note }: MetricCardProps
           fontSize: 22,
           fontWeight: 700,
           color: valueColor,
-          fontFamily: "'Playfair Display', serif",
+          fontFamily: "'Roboto', sans-serif",
           letterSpacing: "-0.01em",
           lineHeight: 1,
         }}
@@ -162,7 +159,7 @@ function MetricCard({ label, value, variant = "default", note }: MetricCardProps
         {value}
       </div>
       {note && (
-        <div style={{ fontSize: 9, color: "rgba(240,232,214,0.35)", fontFamily: "'Jost', sans-serif", letterSpacing: "0.05em" }}>
+        <div style={{ fontSize: 9, color: "rgba(0,0,0,0.5)", fontFamily: "'Roboto', sans-serif", letterSpacing: "0.05em" }}>
           {note}
         </div>
       )}
@@ -197,7 +194,12 @@ export default function PropertyTaxCalculator() {
   return (
     <>
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Jost:wght@300;400;500;600;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;600;700&display=swap');
+        @font-face {
+          font-family: 'March';
+          src: local('March');
+          font-display: swap;
+        }
         *, *::before, *::after { box-sizing: border-box; }
         input[type=number]::-webkit-inner-spin-button,
         input[type=number]::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
@@ -207,13 +209,13 @@ export default function PropertyTaxCalculator() {
       <div
         style={{
           minHeight: "100vh",
-          background: "#F0EAE0",
-          backgroundImage: "radial-gradient(ellipse at 20% 80%, rgba(27,58,40,0.07) 0%, transparent 55%), radial-gradient(ellipse at 80% 10%, rgba(176,125,42,0.08) 0%, transparent 50%)",
+          background: "#0b0e01",
+          backgroundImage: "none",
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
           padding: "2.5rem 1rem",
-          fontFamily: "'Jost', sans-serif",
+          fontFamily: "'Roboto', sans-serif",
         }}
       >
         <div style={{ width: "100%", maxWidth: 460 }}>
@@ -223,14 +225,14 @@ export default function PropertyTaxCalculator() {
             style={{
               borderRadius: 16,
               overflow: "hidden",
-              boxShadow: "0 24px 72px rgba(27,40,30,0.18), 0 4px 16px rgba(27,40,30,0.1)",
+              boxShadow: "0 24px 72px rgba(0,0,0,0.5), 0 4px 16px rgba(0,0,0,0.3)",
             }}
           >
             {/* Header */}
             <div
               style={{
-                background: "linear-gradient(135deg, #1B3A28 0%, #162E20 60%, #1F3D2B 100%)",
-                backgroundImage: "linear-gradient(135deg, #1B3A28 0%, #162E20 60%, #1F3D2B 100%), radial-gradient(ellipse at top right, rgba(196,134,42,0.2) 0%, transparent 60%)",
+                background: "#0b0e01",
+                backgroundImage: "none",
                 padding: "2.2rem 2.2rem 2rem",
                 position: "relative",
                 overflow: "hidden",
@@ -258,8 +260,8 @@ export default function PropertyTaxCalculator() {
                 fontWeight: 600,
                 letterSpacing: "0.2em",
                 textTransform: "uppercase",
-                color: "rgba(196,134,42,0.85)",
-                fontFamily: "'Jost', sans-serif",
+                color: "#ffffff",
+                fontFamily: "'Roboto', sans-serif",
                 marginBottom: 10,
               }}>
                 The Leveler News
@@ -268,22 +270,22 @@ export default function PropertyTaxCalculator() {
               <h1 style={{
                 fontSize: 34,
                 fontWeight: 700,
-                color: "#F0E8D6",
+                color: "#C0F11D",
                 margin: 0,
                 letterSpacing: "-0.02em",
                 lineHeight: 1.1,
-                fontFamily: "'Playfair Display', serif",
+                fontFamily: "'Regards', 'Regards Regular', serif",
               }}>
                 Property Tax
                 <br />
-                <span style={{ color: "#C4862A", fontStyle: "italic" }}>Calculator</span>
+                <span style={{ color: "#C0F11D", fontStyle: "italic" }}>Calculator</span>
               </h1>
 
-              {/* Gold rule */}
+              {/* Lime rule */}
               <div style={{
                 marginTop: "1.4rem",
                 height: 1,
-                background: "linear-gradient(90deg, rgba(196,134,42,0.7), rgba(196,134,42,0.1))",
+                background: "linear-gradient(90deg, rgba(192,241,29,0.6), rgba(192,241,29,0.05))",
                 width: "60%",
               }} />
             </div>
@@ -291,7 +293,7 @@ export default function PropertyTaxCalculator() {
             {/* Body */}
             <div
               style={{
-                background: "#FFFFFF",
+              background: "#0b0e01",
                 padding: "2rem 2.2rem 2.2rem",
               }}
             >
@@ -329,19 +331,19 @@ export default function PropertyTaxCalculator() {
 
               {/* Section label */}
               <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: "1.1rem" }}>
-                <div style={{ flex: 1, height: 1, background: "#EDE5DC" }} />
+                <div style={{ flex: 1, height: 1, background: "rgba(255,255,255,0.12)" }} />
                 <span style={{
                   fontSize: 9.5,
                   fontWeight: 700,
                   letterSpacing: "0.18em",
                   textTransform: "uppercase",
-                  color: "#B09880",
-                  fontFamily: "'Jost', sans-serif",
+                  color: "#ffffff",
+                  fontFamily: "'Roboto', sans-serif",
                   whiteSpace: "nowrap",
                 }}>
                   Tax Bill Comparison
                 </span>
-                <div style={{ flex: 1, height: 1, background: "#EDE5DC" }} />
+                <div style={{ flex: 1, height: 1, background: "rgba(255,255,255,0.12)" }} />
               </div>
 
               {/* Metric cards */}
@@ -361,8 +363,8 @@ export default function PropertyTaxCalculator() {
                 marginTop: "1.8rem",
                 textAlign: "center",
                 fontSize: 10.5,
-                color: "#C4AE98",
-                fontFamily: "'Jost', sans-serif",
+                color: "#ffffff",
+                fontFamily: "'Roboto', sans-serif",
                 letterSpacing: "0.07em",
               }}>
                 Created by Branch Four Inc.
