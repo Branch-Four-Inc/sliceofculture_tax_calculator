@@ -101,6 +101,86 @@ function InputField({ label, id, value, onChange, prefix, suffix, step = 1 }: In
   );
 }
 
+function CommaInputField({ label, id, value, onChange, prefix }: Omit<InputFieldProps, "suffix" | "step">) {
+  const [focused, setFocused] = useState(false);
+
+  // Format a raw numeric string with commas
+  function addCommas(raw: string): string {
+    const digits = raw.replace(/[^0-9]/g, "");
+    if (!digits) return "";
+    return Number(digits).toLocaleString("en-US");
+  }
+
+  function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
+    // Strip commas, pass raw number string upstream
+    const raw = e.target.value.replace(/,/g, "");
+    if (/^\d*$/.test(raw)) onChange(raw);
+  }
+
+  const displayValue = focused ? value : addCommas(String(value));
+
+  return (
+    <div style={{ display: "flex", flexDirection: "column", gap: 7 }}>
+      <label
+        htmlFor={id}
+        style={{
+          fontSize: 10.5,
+          fontWeight: 600,
+          textTransform: "uppercase",
+          letterSpacing: "0.13em",
+          color: focused ? "#C0F11D" : "#ffffff",
+          transition: "color 0.2s ease",
+          fontFamily: "'Roboto', sans-serif",
+        }}
+      >
+        {label}
+      </label>
+      <div style={{ position: "relative", display: "flex", alignItems: "center" }}>
+        {prefix && (
+          <span
+            style={{
+              position: "absolute",
+              left: 14,
+              fontSize: 15,
+              color: focused ? "#C0F11D" : "rgba(255,255,255,0.5)",
+              pointerEvents: "none",
+              fontFamily: "'Roboto', sans-serif",
+              fontWeight: 500,
+              transition: "color 0.2s ease",
+            }}
+          >
+            {prefix}
+          </span>
+        )}
+        <input
+          id={id}
+          type="text"
+          inputMode="numeric"
+          value={displayValue}
+          onChange={handleChange}
+          onFocus={() => setFocused(true)}
+          onBlur={() => setFocused(false)}
+          style={{
+            width: "100%",
+            boxSizing: "border-box",
+            padding: `13px 14px 13px ${prefix ? "30px" : "14px"}`,
+            fontSize: 16,
+            fontFamily: "'Roboto', sans-serif",
+            fontWeight: 500,
+            border: `1.5px solid ${focused ? "#C0F11D" : "rgba(255,255,255,0.15)"}`,
+            borderRadius: 8,
+            outline: "none",
+            background: focused ? "#161a02" : "#111300",
+            color: "#ffffff",
+            transition: "all 0.2s ease",
+            boxShadow: focused ? "0 0 0 3px rgba(192,241,29,0.12)" : "none",
+          }}
+        />
+      </div>
+    </div>
+  );
+}
+
 interface MetricCardProps {
   label: string;
   value: string;
@@ -116,7 +196,7 @@ function MetricCard({ label, value, note }: MetricCardProps) {
       style={{
         background: "#DBF77D",
         borderRadius: 10,
-        padding: "1.2rem 1rem 1.1rem",
+        padding: "0.9rem 0.75rem 0.85rem",
         display: "flex",
         flexDirection: "column",
         gap: 8,
@@ -136,30 +216,33 @@ function MetricCard({ label, value, note }: MetricCardProps) {
       />
       <div
         style={{
-          fontSize: 9.5,
+          fontSize: 9,
           fontWeight: 700,
           textTransform: "uppercase",
-          letterSpacing: "0.15em",
+          letterSpacing: "0.12em",
           color: "rgba(0,0,0,0.55)",
           fontFamily: "'Roboto', sans-serif",
+          textAlign: "left",
         }}
       >
         {label}
       </div>
       <div
         style={{
-          fontSize: 22,
+          fontSize: 18,
           fontWeight: 700,
           color: valueColor,
           fontFamily: "'Roboto', sans-serif",
           letterSpacing: "-0.01em",
           lineHeight: 1,
+          textAlign: "left",
+          wordBreak: "break-word",
         }}
       >
         {value}
       </div>
       {note && (
-        <div style={{ fontSize: 9, color: "rgba(0,0,0,0.5)", fontFamily: "'Roboto', sans-serif", letterSpacing: "0.05em" }}>
+        <div style={{ fontSize: 9, color: "rgba(0,0,0,0.5)", fontFamily: "'Roboto', sans-serif", letterSpacing: "0.04em", textAlign: "left" }}>
           {note}
         </div>
       )}
@@ -299,13 +382,12 @@ export default function PropertyTaxCalculator() {
             >
               {/* Assessed value */}
               <div style={{ marginBottom: "1.3rem" }}>
-                <InputField
+                <CommaInputField
                   label="Assessed Property Value"
                   id="assessed-value"
                   value={assessedValue}
                   onChange={setAssessedValue}
                   prefix="$"
-                  step={1000}
                 />
               </div>
 
