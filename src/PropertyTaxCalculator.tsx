@@ -253,7 +253,7 @@ function MetricCard({ label, value, note }: MetricCardProps) {
 export default function PropertyTaxCalculator() {
   const [assessedValue, setAssessedValue] = useState<string>("350000");
   const [oldRate, setOldRate] = useState<string>("2.00");
-  const [newRate, setNewRate] = useState<string>("5.25");
+  const [newRate, setNewRate] = useState<string>("4.75");
 
   const value = parseFloat(assessedValue) || 0;
   const oldRateNum = parseFloat(oldRate) || 0;
