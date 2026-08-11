@@ -1,7 +1,7 @@
 import { useState } from "react";
 
 // Brand type system
-const FONT_HEADLINE = "'TT Ramillas', 'Helvetica Neue', serif"; // display headline face
+const FONT_HEADLINE = "'TT Ramillas', 'Helvetica Neue', sans-serif"; // display headline face
 const FONT_HEADLINE_ITALIC = "'Montserrat', 'Helvetica Neue', sans-serif"; // italic accent word
 const FONT_LABEL = "'Montserrat', 'Helvetica Neue', sans-serif"; // bold uppercase labels/eyebrows
 const FONT_VALUE = "'Delicate Sans', 'Montserrat', 'Helvetica Neue', sans-serif"; // numeric/value face
@@ -398,12 +398,11 @@ export default function PropertyTaxCalculator() {
             <div
               style={{
               background: COLOR_WHITE,
-              color: COLOR_ORANGE,
                 padding: "2rem 2.2rem 2.2rem",
               }}
             >
               {/* Assessed value */}
-              <div style={{ marginBottom: "1.3rem" }}>
+              <div style={{ marginBottom: "1.3rem", color: COLOR_ORANGE }}>
                 <CommaInputField
                   label="Assessed Property Value"
                   id="assessed-value"
