@@ -402,13 +402,14 @@ export default function PropertyTaxCalculator() {
               }}
             >
               {/* Assessed value */}
-              <div style={{ marginBottom: "1.3rem", color: COLOR_ORANGE }}>
+              <div style={{ marginBottom: "1.3rem" }}>
                 <CommaInputField
                   label="Assessed Property Value"
                   id="assessed-value"
                   value={assessedValue}
                   onChange={setAssessedValue}
                   prefix="$"
+                  style={{ color: COLOR_ORANGE }}
                 />
               </div>
 
