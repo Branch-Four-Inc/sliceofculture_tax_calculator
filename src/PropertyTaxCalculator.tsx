@@ -1,7 +1,7 @@
 import { useState } from "react";
 
 // Brand type system
-const FONT_HEADLINE = "'TT Ramillas', 'Georgia', serif"; // display headline face
+const FONT_HEADLINE = "'TT Ramillas', 'Helvetica Neue', serif"; // display headline face
 const FONT_HEADLINE_ITALIC = "'Montserrat', 'Helvetica Neue', sans-serif"; // italic accent word
 const FONT_LABEL = "'Montserrat', 'Helvetica Neue', sans-serif"; // bold uppercase labels/eyebrows
 const FONT_VALUE = "'Delicate Sans', 'Montserrat', 'Helvetica Neue', sans-serif"; // numeric/value face
@@ -382,7 +382,7 @@ export default function PropertyTaxCalculator() {
               }}>
                 Property Tax
                 <br />
-                <span style={{ color: COLOR_ORANGE, fontStyle: "italic", fontFamily: FONT_HEADLINE_ITALIC, fontWeight: 600 }}>Calculator</span>
+                <span style={{ color: COLOR_RED_ORANGE, fontStyle: "italic", fontFamily: FONT_HEADLINE_ITALIC, fontWeight: 600 }}>Calculator</span>
               </h1>
 
               {/* Brand rule */}
@@ -398,6 +398,7 @@ export default function PropertyTaxCalculator() {
             <div
               style={{
               background: COLOR_WHITE,
+              color: COLOR_ORANGE,
                 padding: "2rem 2.2rem 2.2rem",
               }}
             >
@@ -467,7 +468,7 @@ export default function PropertyTaxCalculator() {
                 textAlign: "center",
                 fontSize: 10.5,
                 fontWeight: 600,
-                color: COLOR_BLACK,
+                color: COLOR_ORANGE,
                 fontFamily: FONT_LABEL,
                 letterSpacing: "0.07em",
               }}>
