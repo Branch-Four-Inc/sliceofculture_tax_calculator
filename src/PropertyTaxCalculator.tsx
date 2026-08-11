@@ -35,6 +35,10 @@ interface InputFieldProps {
 function InputField({ label, id, value, onChange, prefix, suffix, step = 1 }: InputFieldProps) {
   const [focused, setFocused] = useState(false);
 
+  // Update label styling if this is "New Rate"
+  const isNewRate = label === "New Rate";
+  const labelColor = isNewRate ? COLOR_RED_ORANGE : (focused ? COLOR_YELLOW : COLOR_ORANGE);
+
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: 7 }}>
       <label
@@ -44,7 +48,7 @@ function InputField({ label, id, value, onChange, prefix, suffix, step = 1 }: In
           fontWeight: 700,
           textTransform: "uppercase",
           letterSpacing: "0.13em",
-          color: focused ? COLOR_YELLOW : COLOR_ORANGE,
+          color: labelColor,
           transition: "color 0.2s ease",
           fontFamily: FONT_LABEL,
         }}
@@ -114,7 +118,11 @@ function InputField({ label, id, value, onChange, prefix, suffix, step = 1 }: In
   );
 }
 
-function CommaInputField({ label, id, value, onChange, prefix }: Omit<InputFieldProps, "suffix" | "step">) {
+interface CommaInputFieldProps extends Omit<InputFieldProps, "suffix" | "step"> {
+  isAssessedPropertyCalculator?: boolean;
+}
+
+function CommaInputField({ label, id, value, onChange, prefix, isAssessedPropertyCalculator }: CommaInputFieldProps) {
   const [focused, setFocused] = useState(false);
 
   // Format a raw numeric string with commas
@@ -131,6 +139,7 @@ function CommaInputField({ label, id, value, onChange, prefix }: Omit<InputField
   }
 
   const displayValue = focused ? value : addCommas(String(value));
+  const labelColor = isAssessedPropertyCalculator ? COLOR_RED_ORANGE : (focused ? COLOR_YELLOW : COLOR_ORANGE);
 
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: 7 }}>
@@ -141,7 +150,7 @@ function CommaInputField({ label, id, value, onChange, prefix }: Omit<InputField
           fontWeight: 700,
           textTransform: "uppercase",
           letterSpacing: "0.13em",
-          color: focused ? COLOR_YELLOW : COLOR_ORANGE,
+          color: labelColor,
           transition: "color 0.2s ease",
           fontFamily: FONT_LABEL,
         }}
@@ -205,6 +214,10 @@ function MetricCard({ label, value, variant = "default", note }: MetricCardProps
   const valueColor =
     variant === "increase" ? COLOR_RED_ORANGE : variant === "decrease" ? COLOR_BLACK : COLOR_BLACK;
 
+  // Update label styling if this is "Old Rate"
+  const isOldRate = label === "Old Rate";
+  const labelColor = isOldRate ? COLOR_RED_ORANGE : "rgba(0,0,0,0.6)";
+
   return (
     <div
       style={{
@@ -234,7 +247,7 @@ function MetricCard({ label, value, variant = "default", note }: MetricCardProps
           fontWeight: 700,
           textTransform: "uppercase",
           letterSpacing: "0.12em",
-          color: "rgba(0,0,0,0.6)",
+          color: labelColor,
           fontFamily: FONT_LABEL,
           textAlign: "left",
         }}
@@ -405,18 +418,19 @@ export default function PropertyTaxCalculator() {
               {/* Assessed value */}
               <div style={{ marginBottom: "1.3rem" }}>
                 <CommaInputField
-                  label="Assessed Property Value"
+                  label="Assessed Property Calculator"
                   id="assessed-value"
                   value={assessedValue}
                   onChange={setAssessedValue}
                   prefix="$"
+                  isAssessedPropertyCalculator={true}
                 />
               </div>
 
               {/* Rate inputs */}
               <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 14, marginBottom: "2.2rem" }}>
                 <InputField
-                  label="Current Rate"
+                  label="Old Rate"
                   id="old-rate"
                   value={oldRate}
                   onChange={setOldRate}
@@ -441,7 +455,7 @@ export default function PropertyTaxCalculator() {
                   fontWeight: 700,
                   letterSpacing: "0.18em",
                   textTransform: "uppercase",
-                  color: COLOR_ORANGE,
+                  color: COLOR_RED_ORANGE,
                   fontFamily: FONT_LABEL,
                   whiteSpace: "nowrap",
                 }}>
