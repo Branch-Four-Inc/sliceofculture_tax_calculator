@@ -89,7 +89,8 @@ function InputField({ label, id, value, onChange, prefix, suffix, step = 1 }: In
             outline: "none",
             background: focused ? "#fffaeb" : "#ffffff",
             color: COLOR_ORANGE,
-            transition: "all 0.2s ease"
+            transition: "all 0.2s ease",
+            boxShadow: "none",
           }}
         />
         {suffix && (
@@ -140,7 +141,7 @@ function CommaInputField({ label, id, value, onChange, prefix }: Omit<InputField
           fontWeight: 700,
           textTransform: "uppercase",
           letterSpacing: "0.13em",
-          color: focused ? COLOR_YELLOW : COLOR_BLACK,
+          color: focused ? COLOR_YELLOW : COLOR_ORANGE,
           transition: "color 0.2s ease",
           fontFamily: FONT_LABEL,
         }}
@@ -154,7 +155,7 @@ function CommaInputField({ label, id, value, onChange, prefix }: Omit<InputField
               position: "absolute",
               left: 14,
               fontSize: 15,
-              color: focused ? COLOR_YELLOW : "rgba(0,0,0,0.45)",
+              color: focused ? COLOR_YELLOW : COLOR_ORANGE,
               pointerEvents: "none",
               fontFamily: FONT_VALUE,
               fontWeight: 700,
@@ -183,9 +184,9 @@ function CommaInputField({ label, id, value, onChange, prefix }: Omit<InputField
             borderRadius: 8,
             outline: "none",
             background: focused ? "#fffaeb" : "#ffffff",
-            color: COLOR_BLACK,
+            color: COLOR_ORANGE,
             transition: "all 0.2s ease",
-            boxShadow: focused ? "0 0 0 3px rgba(255,206,48,0.15)" : "none",
+            boxShadow: "none",
           }}
         />
       </div>
@@ -396,8 +397,8 @@ export default function PropertyTaxCalculator() {
             {/* Body */}
             <div
               style={{
-              background: COLOR_WHITE,
-              color: COLOR_ORANGE,
+                background: COLOR_WHITE,
+                color: COLOR_ORANGE,
                 padding: "2rem 2.2rem 2.2rem",
               }}
             >
