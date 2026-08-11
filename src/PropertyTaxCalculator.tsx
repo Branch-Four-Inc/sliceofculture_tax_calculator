@@ -88,7 +88,7 @@ function InputField({ label, id, value, onChange, prefix, suffix, step = 1 }: In
             borderRadius: 8,
             outline: "none",
             background: focused ? "#fffaeb" : "#ffffff",
-            color: COLOR_BLACK,
+            color: COLOR_ORANGE,
             transition: "all 0.2s ease"
           }}
         />
