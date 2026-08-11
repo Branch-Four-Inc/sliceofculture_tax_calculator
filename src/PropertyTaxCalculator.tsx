@@ -35,9 +35,9 @@ interface InputFieldProps {
 function InputField({ label, id, value, onChange, prefix, suffix, step = 1 }: InputFieldProps) {
   const [focused, setFocused] = useState(false);
 
-  // Update label styling if this is "New Rate"
-  const isNewRate = label === "New Rate";
-  const labelColor = isNewRate ? COLOR_RED_ORANGE : (focused ? COLOR_YELLOW : COLOR_ORANGE);
+  // Update label styling if this is "New Rate" or "Old Rate"
+  const isNewOrOldRate = label === "New Rate" || label === "Old Rate";
+  const labelColor = isNewOrOldRate ? COLOR_RED_ORANGE : (focused ? COLOR_YELLOW : COLOR_ORANGE);
 
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: 7 }}>
@@ -214,9 +214,7 @@ function MetricCard({ label, value, variant = "default", note }: MetricCardProps
   const valueColor =
     variant === "increase" ? COLOR_RED_ORANGE : variant === "decrease" ? COLOR_BLACK : COLOR_BLACK;
 
-  // Update label styling if this is "Old Rate"
-  const isOldRate = label === "Old Rate";
-  const labelColor = isOldRate ? COLOR_RED_ORANGE : "rgba(0,0,0,0.6)";
+  const labelColor = label === "Old Rate" ? COLOR_RED_ORANGE : "rgba(0,0,0,0.6)";
 
   return (
     <div
@@ -418,7 +416,7 @@ export default function PropertyTaxCalculator() {
               {/* Assessed value */}
               <div style={{ marginBottom: "1.3rem" }}>
                 <CommaInputField
-                  label="Assessed Property Calculator"
+                  label="Assessed Property Value"
                   id="assessed-value"
                   value={assessedValue}
                   onChange={setAssessedValue}
