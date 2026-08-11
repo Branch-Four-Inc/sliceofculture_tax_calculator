@@ -1,5 +1,18 @@
 import { useState } from "react";
 
+// Brand type system
+const FONT_HEADLINE = "'TT Ramillas', 'Georgia', serif"; // display headline face
+const FONT_HEADLINE_ITALIC = "'Montserrat', 'Helvetica Neue', sans-serif"; // italic accent word
+const FONT_LABEL = "'Montserrat', 'Helvetica Neue', sans-serif"; // bold uppercase labels/eyebrows
+const FONT_VALUE = "'Delicate Sans', 'Montserrat', 'Helvetica Neue', sans-serif"; // numeric/value face
+
+// Brand palette
+const COLOR_WHITE = "#ffffff";
+const COLOR_YELLOW = "#ffce30";
+const COLOR_ORANGE = "#ffa73c";
+const COLOR_RED_ORANGE = "#ff6630";
+const COLOR_BLACK = "#000000";
+
 function fmt(value: number): string {
   return new Intl.NumberFormat("en-US", {
     style: "currency",
@@ -28,12 +41,12 @@ function InputField({ label, id, value, onChange, prefix, suffix, step = 1 }: In
         htmlFor={id}
         style={{
           fontSize: 10.5,
-          fontWeight: 600,
+          fontWeight: 700,
           textTransform: "uppercase",
           letterSpacing: "0.13em",
-          color: focused ? "#C0F11D" : "#ffffff",
+          color: focused ? COLOR_YELLOW : COLOR_BLACK,
           transition: "color 0.2s ease",
-          fontFamily: "'Roboto', sans-serif",
+          fontFamily: FONT_LABEL,
         }}
       >
         {label}
@@ -45,10 +58,10 @@ function InputField({ label, id, value, onChange, prefix, suffix, step = 1 }: In
               position: "absolute",
               left: 14,
               fontSize: 15,
-              color: focused ? "#C0F11D" : "rgba(255,255,255,0.5)",
+              color: focused ? COLOR_YELLOW : "rgba(0,0,0,0.45)",
               pointerEvents: "none",
-              fontFamily: "'Roboto', sans-serif",
-              fontWeight: 500,
+              fontFamily: FONT_VALUE,
+              fontWeight: 700,
               transition: "color 0.2s ease",
             }}
           >
@@ -69,15 +82,15 @@ function InputField({ label, id, value, onChange, prefix, suffix, step = 1 }: In
             boxSizing: "border-box",
             padding: `13px ${suffix ? "42px" : "14px"} 13px ${prefix ? "30px" : "14px"}`,
             fontSize: 16,
-            fontFamily: "'Roboto', sans-serif",
-            fontWeight: 500,
-            border: `1.5px solid ${focused ? "#C0F11D" : "rgba(255,255,255,0.15)"}`,
+            fontFamily: FONT_VALUE,
+            fontWeight: 700,
+            border: `1.5px solid ${focused ? COLOR_YELLOW : "rgba(0,0,0,0.18)"}`,
             borderRadius: 8,
             outline: "none",
-            background: focused ? "#161a02" : "#111300",
-            color: "#ffffff",
+            background: focused ? "#fffaeb" : "#ffffff",
+            color: COLOR_BLACK,
             transition: "all 0.2s ease",
-            boxShadow: focused ? "0 0 0 3px rgba(192,241,29,0.12)" : "none",
+            boxShadow: focused ? "0 0 0 3px rgba(255,206,48,0.15)" : "none",
           }}
         />
         {suffix && (
@@ -86,10 +99,10 @@ function InputField({ label, id, value, onChange, prefix, suffix, step = 1 }: In
               position: "absolute",
               right: 14,
               fontSize: 15,
-              color: focused ? "#C0F11D" : "rgba(255,255,255,0.5)",
+              color: focused ? COLOR_YELLOW : "rgba(0,0,0,0.45)",
               pointerEvents: "none",
-              fontFamily: "'Roboto', sans-serif",
-              fontWeight: 500,
+              fontFamily: FONT_VALUE,
+              fontWeight: 700,
               transition: "color 0.2s ease",
             }}
           >
@@ -125,12 +138,12 @@ function CommaInputField({ label, id, value, onChange, prefix }: Omit<InputField
         htmlFor={id}
         style={{
           fontSize: 10.5,
-          fontWeight: 600,
+          fontWeight: 700,
           textTransform: "uppercase",
           letterSpacing: "0.13em",
-          color: focused ? "#C0F11D" : "#ffffff",
+          color: focused ? COLOR_YELLOW : COLOR_BLACK,
           transition: "color 0.2s ease",
-          fontFamily: "'Roboto', sans-serif",
+          fontFamily: FONT_LABEL,
         }}
       >
         {label}
@@ -142,10 +155,10 @@ function CommaInputField({ label, id, value, onChange, prefix }: Omit<InputField
               position: "absolute",
               left: 14,
               fontSize: 15,
-              color: focused ? "#C0F11D" : "rgba(255,255,255,0.5)",
+              color: focused ? COLOR_YELLOW : "rgba(0,0,0,0.45)",
               pointerEvents: "none",
-              fontFamily: "'Roboto', sans-serif",
-              fontWeight: 500,
+              fontFamily: FONT_VALUE,
+              fontWeight: 700,
               transition: "color 0.2s ease",
             }}
           >
@@ -165,15 +178,15 @@ function CommaInputField({ label, id, value, onChange, prefix }: Omit<InputField
             boxSizing: "border-box",
             padding: `13px 14px 13px ${prefix ? "30px" : "14px"}`,
             fontSize: 16,
-            fontFamily: "'Roboto', sans-serif",
-            fontWeight: 500,
-            border: `1.5px solid ${focused ? "#C0F11D" : "rgba(255,255,255,0.15)"}`,
+            fontFamily: FONT_VALUE,
+            fontWeight: 700,
+            border: `1.5px solid ${focused ? COLOR_YELLOW : "rgba(0,0,0,0.18)"}`,
             borderRadius: 8,
             outline: "none",
-            background: focused ? "#161a02" : "#111300",
-            color: "#ffffff",
+            background: focused ? "#fffaeb" : "#ffffff",
+            color: COLOR_BLACK,
             transition: "all 0.2s ease",
-            boxShadow: focused ? "0 0 0 3px rgba(192,241,29,0.12)" : "none",
+            boxShadow: focused ? "0 0 0 3px rgba(255,206,48,0.15)" : "none",
           }}
         />
       </div>
@@ -188,13 +201,14 @@ interface MetricCardProps {
   note?: string;
 }
 
-function MetricCard({ label, value, note }: MetricCardProps) {
-  const valueColor = "#000000";
+function MetricCard({ label, value, variant = "default", note }: MetricCardProps) {
+  const valueColor =
+    variant === "increase" ? COLOR_RED_ORANGE : variant === "decrease" ? COLOR_BLACK : COLOR_BLACK;
 
   return (
     <div
       style={{
-        background: "#DBF77D",
+        background: COLOR_YELLOW,
         borderRadius: 10,
         padding: "0.9rem 0.75rem 0.85rem",
         display: "flex",
@@ -205,13 +219,13 @@ function MetricCard({ label, value, note }: MetricCardProps) {
         boxShadow: "0 4px 16px rgba(0,0,0,0.3)",
       }}
     >
-      {/* lime shimmer top line */}
+      {/* brand shimmer top line */}
       <div
         style={{
           position: "absolute",
           top: 0, left: 0, right: 0,
           height: 2,
-          background: "linear-gradient(90deg, transparent, rgba(192,241,29,0.8), transparent)",
+          background: "linear-gradient(90deg, transparent, rgba(255,102,48,0.8), transparent)",
         }}
       />
       <div
@@ -220,8 +234,8 @@ function MetricCard({ label, value, note }: MetricCardProps) {
           fontWeight: 700,
           textTransform: "uppercase",
           letterSpacing: "0.12em",
-          color: "rgba(0,0,0,0.55)",
-          fontFamily: "'Roboto', sans-serif",
+          color: "rgba(0,0,0,0.6)",
+          fontFamily: FONT_LABEL,
           textAlign: "left",
         }}
       >
@@ -232,7 +246,7 @@ function MetricCard({ label, value, note }: MetricCardProps) {
           fontSize: 18,
           fontWeight: 700,
           color: valueColor,
-          fontFamily: "'Roboto', sans-serif",
+          fontFamily: FONT_VALUE,
           letterSpacing: "-0.01em",
           lineHeight: 1,
           textAlign: "left",
@@ -242,7 +256,7 @@ function MetricCard({ label, value, note }: MetricCardProps) {
         {value}
       </div>
       {note && (
-        <div style={{ fontSize: 9, color: "rgba(0,0,0,0.5)", fontFamily: "'Roboto', sans-serif", letterSpacing: "0.04em", textAlign: "left" }}>
+        <div style={{ fontSize: 9, color: "rgba(0,0,0,0.55)", fontFamily: FONT_LABEL, fontWeight: 600, letterSpacing: "0.04em", textAlign: "left" }}>
           {note}
         </div>
       )}
@@ -277,10 +291,17 @@ export default function PropertyTaxCalculator() {
   return (
     <>
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;600;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,600;0,700;1,400;1,600&display=swap');
         @font-face {
-          font-family: 'March';
-          src: local('March');
+          font-family: 'TT Ramillas';
+          src: local('TT Ramillas'), local('TT Ramillas Bold');
+          font-weight: 700;
+          font-display: swap;
+        }
+        @font-face {
+          font-family: 'Delicate Sans';
+          src: local('Delicate Sans'), local('Delicate Sans Bold');
+          font-weight: 700;
           font-display: swap;
         }
         *, *::before, *::after { box-sizing: border-box; }
@@ -292,13 +313,13 @@ export default function PropertyTaxCalculator() {
       <div
         style={{
           minHeight: "100vh",
-          background: "#0b0e01",
+          background: COLOR_WHITE,
           backgroundImage: "none",
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
           padding: "2.5rem 1rem",
-          fontFamily: "'Roboto', sans-serif",
+          fontFamily: FONT_LABEL,
         }}
       >
         <div style={{ width: "100%", maxWidth: 460 }}>
@@ -314,7 +335,7 @@ export default function PropertyTaxCalculator() {
             {/* Header */}
             <div
               style={{
-                background: "#0b0e01",
+                background: COLOR_WHITE,
                 backgroundImage: "none",
                 padding: "2.2rem 2.2rem 2rem",
                 position: "relative",
@@ -326,49 +347,49 @@ export default function PropertyTaxCalculator() {
                 position: "absolute", top: -40, right: -40,
                 width: 140, height: 140,
                 borderRadius: "50%",
-                border: "1px solid rgba(196,134,42,0.18)",
+                border: "1px solid rgba(255,167,60,0.2)",
                 pointerEvents: "none",
               }} />
               <div style={{
                 position: "absolute", top: -20, right: -20,
                 width: 100, height: 100,
                 borderRadius: "50%",
-                border: "1px solid rgba(196,134,42,0.1)",
+                border: "1px solid rgba(255,167,60,0.12)",
                 pointerEvents: "none",
               }} />
 
               {/* Eyebrow */}
               <div style={{
                 fontSize: 10,
-                fontWeight: 600,
+                fontWeight: 700,
                 letterSpacing: "0.2em",
                 textTransform: "uppercase",
-                color: "#ffffff",
-                fontFamily: "'Roboto', sans-serif",
+                color: COLOR_ORANGE,
+                fontFamily: FONT_LABEL,
                 marginBottom: 10,
               }}>
-                The Leveler News
+                Slice of Culture
               </div>
 
               <h1 style={{
                 fontSize: 34,
                 fontWeight: 700,
-                color: "#C0F11D",
+                color: COLOR_RED_ORANGE,
                 margin: 0,
                 letterSpacing: "-0.02em",
                 lineHeight: 1.1,
-                fontFamily: "'Regards', 'Regards Regular', serif",
+                fontFamily: FONT_HEADLINE,
               }}>
                 Property Tax
                 <br />
-                <span style={{ color: "#C0F11D", fontStyle: "italic" }}>Calculator</span>
+                <span style={{ color: COLOR_ORANGE, fontStyle: "italic", fontFamily: FONT_HEADLINE_ITALIC, fontWeight: 600 }}>Calculator</span>
               </h1>
 
-              {/* Lime rule */}
+              {/* Brand rule */}
               <div style={{
                 marginTop: "1.4rem",
                 height: 1,
-                background: "linear-gradient(90deg, rgba(192,241,29,0.6), rgba(192,241,29,0.05))",
+                background: "linear-gradient(90deg, rgba(255,206,48,0.7), rgba(255,102,48,0.05))",
                 width: "60%",
               }} />
             </div>
@@ -376,7 +397,7 @@ export default function PropertyTaxCalculator() {
             {/* Body */}
             <div
               style={{
-              background: "#0b0e01",
+              background: COLOR_WHITE,
                 padding: "2rem 2.2rem 2.2rem",
               }}
             >
@@ -413,19 +434,19 @@ export default function PropertyTaxCalculator() {
 
               {/* Section label */}
               <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: "1.1rem" }}>
-                <div style={{ flex: 1, height: 1, background: "rgba(255,255,255,0.12)" }} />
+                <div style={{ flex: 1, height: 1, background: "rgba(0,0,0,0.12)" }} />
                 <span style={{
                   fontSize: 9.5,
                   fontWeight: 700,
                   letterSpacing: "0.18em",
                   textTransform: "uppercase",
-                  color: "#ffffff",
-                  fontFamily: "'Roboto', sans-serif",
+                  color: COLOR_ORANGE,
+                  fontFamily: FONT_LABEL,
                   whiteSpace: "nowrap",
                 }}>
                   Tax Bill Comparison
                 </span>
-                <div style={{ flex: 1, height: 1, background: "rgba(255,255,255,0.12)" }} />
+                <div style={{ flex: 1, height: 1, background: "rgba(0,0,0,0.12)" }} />
               </div>
 
               {/* Metric cards */}
@@ -445,8 +466,9 @@ export default function PropertyTaxCalculator() {
                 marginTop: "1.8rem",
                 textAlign: "center",
                 fontSize: 10.5,
-                color: "#ffffff",
-                fontFamily: "'Roboto', sans-serif",
+                fontWeight: 600,
+                color: COLOR_BLACK,
+                fontFamily: FONT_LABEL,
                 letterSpacing: "0.07em",
               }}>
                 Created by Branch Four Inc.
